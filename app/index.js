@@ -1,13 +1,5 @@
 const { Daemon } = require('daemon');
+const { hostname } = require('os');
+const { Env } = require(`../env/${hostname()}`);
 
-const data = {
-  command: ['cinnamon-screensaver-command', ['-a']],
-  min: 54,
-};
-
-(async () => {
-  const daemon = new Daemon();
-  daemon.start(data)
-  .then(daemon.logger.info)
-  .catch(daemon.logger.error);
-})();
+(async () => new Daemon(Env).start())();
