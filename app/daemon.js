@@ -12,7 +12,10 @@ class Daemon extends App {
   }
   schedule(cron) {
     const promise = this.promise();
-    schedule(cron, promise.resolve);
+    schedule(cron, promise.resolve, {
+      scheduled: true,
+      timezone: 'Asia/Tokyo',
+    });
     return promise.instance;
   }
   build() {
@@ -21,11 +24,14 @@ class Daemon extends App {
       command: this.env.command,
     }));
   }
+  fire(param) {
+    this.logger.info(`${new Date()} daemon-fire`);
+    this.spawn(...param.command)
+    .catch(e => this.logger.error({ Error: e }));
+  }
   run(param) {
     this.schedule(param.cron)
-    .then(() => this.spawn(
-      ...param.command,
-    ));
+    .then(() => this.fire(param));
   }
 }
 
