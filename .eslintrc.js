@@ -16,6 +16,7 @@ module.exports = {
   // add your custom rules here
   rules: {
     indent: ['error', 2, { MemberExpression: 0 }],
+    'no-trailing-spaces': 'error',
     // allow debugger during development
     'no-debugger': process.env.NODE_ENV === 'production' ? 2 : 0,
     'arrow-parens': 'off',
